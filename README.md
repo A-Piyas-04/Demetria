@@ -1,4 +1,4 @@
-# Demetria Nutrition (placeholder brand)
+# Demetria Nutrition
 
 Premium B2B animal nutrition corporate site built with **Next.js 16**, **React 19**, **Tailwind CSS 4**, and **TypeScript**. All marketing copy, products, and contact details are centralized under `src/data/` for easy replacement.
 
