@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
-import { CursorInstrument } from "@/components/motion/CursorInstrument";
+import { CursorWave } from "@/components/motion/CursorWave";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <>
-      <CursorInstrument />
+      <CursorWave />
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
