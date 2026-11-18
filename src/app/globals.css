@@ -1,26 +1,277 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================================
+   DESIGN TOKENS — "Scientific Precision Meets Natural Intelligence"
+   ============================================================ */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Core palette */
+  --color-primary: #173c32; /* Deep Forest  — statement sections */
+  --color-primary-deep: #102a23; /* Deeper forest for layering       */
+  --color-primary-soft: #e4eae1; /* Pale sage wash / light-on-dark text */
+  --color-sage: #a8bea4; /* Soft Sage    — secondary accents */
+  --color-accent: #547d55; /* Botanical Green — interactive    */
+  --color-brass: #b7a478; /* Subtle brass — fine details only */
+  --color-bg: #f6f5ef; /* Warm Ivory   — default page bg   */
+  --color-surface: #ffffff;
+  --color-ink: #202b27; /* Charcoal     — body copy         */
+  --color-muted: #68766e; /* Muted gray                       */
+  --color-line: #e2e0d6; /* Hairline rules on ivory          */
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  /* Motion language — one vocabulary for the whole site */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-micro: 200ms; /* Category A — microinteractions */
+  --dur-reveal: 640ms; /* Category B — section reveals   */
 }
 
-@media (prefers-color-scheme: dark) {
+/* Mirror onto :root so raw CSS can read the same values. */
+:root {
+  --color-primary: #173c32;
+  --color-primary-deep: #102a23;
+  --color-primary-soft: #e4eae1;
+  --color-sage: #a8bea4;
+  --color-accent: #547d55;
+  --color-brass: #b7a478;
+  --color-bg: #f6f5ef;
+  --color-surface: #ffffff;
+  --color-ink: #202b27;
+  --color-muted: #68766e;
+  --color-line: #e2e0d6;
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-micro: 200ms;
+  --dur-reveal: 640ms;
+
+  /* Layout rhythm */
+  --shell-max: 84rem; /* 1344px */
+  --gutter: 1.25rem;
+}
+
+@media (min-width: 640px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --gutter: 2rem;
   }
 }
 
+@media (min-width: 1024px) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.font-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-variation-settings: "SOFT" 0, "WONK" 0;
+}
+
+/* ============================================================
+   TYPOGRAPHY SCALE — fluid, clamp-driven
+   ============================================================ */
+
+.t-hero {
+  font-size: clamp(2.65rem, 1.1rem + 5.2vw, 5.5rem); /* 42 → 88px */
+  line-height: 1.02;
+  letter-spacing: -0.028em;
+}
+
+/* Hero display — scales with BOTH viewport width and height so the headline,
+   support copy, and buttons always share one screen without scrolling. */
+.t-hero-display {
+  font-size: clamp(2.3rem, min(0.85rem + 4.5vw, 8.4vh), 4.75rem); /* 37 → 76px */
+  line-height: 1.04;
+  letter-spacing: -0.028em;
+}
+
+.t-h2 {
+  font-size: clamp(2rem, 1.1rem + 3vw, 4rem); /* 32 → 64px */
+  line-height: 1.07;
+  letter-spacing: -0.022em;
+}
+
+.t-h3 {
+  font-size: clamp(1.5rem, 1.1rem + 1.3vw, 2.5rem); /* 24 → 40px */
+  line-height: 1.14;
+  letter-spacing: -0.018em;
+}
+
+.t-h4 {
+  font-size: clamp(1.25rem, 1.08rem + 0.55vw, 1.625rem); /* 20 → 26px */
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+
+.t-lead {
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+  line-height: 1.66;
+}
+
+.t-body {
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
+.t-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .t-eyebrow {
+    font-size: 0.78rem;
+  }
+}
+
+/* ============================================================
+   SECTION RHYTHM
+   ============================================================ */
+
+.section-pad {
+  padding-block: clamp(4rem, 2rem + 7vw, 9rem); /* 64 → 144px */
+}
+
+.section-pad-tight {
+  padding-block: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+}
+
+/* Hairline rule that expands on reveal */
+.rule {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.18;
+  transform-origin: left;
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   SURFACES — the site's one card language
+   ============================================================ */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  transition:
+    border-color var(--dur-micro) var(--ease-brand),
+    box-shadow var(--dur-micro) var(--ease-brand),
+    transform var(--dur-micro) var(--ease-brand);
+}
+
+.card-interactive:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+  box-shadow: 0 22px 46px -32px rgba(16, 42, 35, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Same language inverted for forest sections. */
+.card-dark {
+  background: color-mix(in srgb, #ffffff 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-sage) 26%, transparent);
+  border-radius: 3px;
+  transition:
+    border-color var(--dur-micro) var(--ease-brand),
+    background-color var(--dur-micro) var(--ease-brand),
+    transform var(--dur-micro) var(--ease-brand);
+}
+
+.card-dark.card-interactive:hover {
+  border-color: color-mix(in srgb, var(--color-sage) 55%, transparent);
+  background: color-mix(in srgb, #ffffff 9%, transparent);
+  box-shadow: none;
+}
+
+/* Display numeral used for ordered sequences (outcomes, stages, values). */
+.numeral {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-size: clamp(1.6rem, 1.2rem + 1vw, 2.25rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--color-brass);
+}
+
+/* Form controls — one definition, light and dark. */
+.field {
+  width: 100%;
+  border: 1px solid var(--color-line);
+  border-radius: 3px;
+  background: var(--color-bg);
+  padding: 0.75rem 0.95rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink);
+  outline: none;
+  transition:
+    border-color var(--dur-micro) var(--ease-brand),
+    box-shadow var(--dur-micro) var(--ease-brand),
+    background-color var(--dur-micro) var(--ease-brand);
+}
+
+.field::placeholder {
+  color: color-mix(in srgb, var(--color-muted) 70%, transparent);
+}
+
+.field:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 24%, transparent);
+}
+
+.field:focus {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+.field-label {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
 }

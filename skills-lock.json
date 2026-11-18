@@ -1,11 +1,29 @@
 {
   "version": 1,
   "skills": {
+    "copywriting": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/copywriting/SKILL.md",
+      "computedHash": "dda5a22252da9567a80946056355c8d6104016fedd4deef57790a9a0d855f186"
+    },
+    "customer-research": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/customer-research/SKILL.md",
+      "computedHash": "815a11fd1e923fe54e3c5617e6b0b9b4e80a4a9339cb4eb0949c5e81d5b48641"
+    },
     "design-taste-frontend": {
       "source": "Leonxlnx/taste-skill",
       "sourceType": "github",
       "skillPath": "skills/taste-skill/SKILL.md",
       "computedHash": "974e1bb8cf7c78d3a63f1456d54a97119c03e7ab8bf374e04ade800892326ec7"
+    },
+    "product-marketing": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "skillPath": "skills/product-marketing/SKILL.md",
+      "computedHash": "3fceb36c411e07c40b9902e5deef4013b8519e5d02c0586ca6085cd30c9b49b2"
     },
     "scroll-experience": {
       "source": "sickn33/antigravity-awesome-skills",
