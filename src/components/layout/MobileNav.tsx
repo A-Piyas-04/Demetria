@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { company } from "@/data/company";
 import { mainNav } from "@/data/navigation";
+import { Logo } from "@/components/ui/Logo";
 
 type MobileNavProps = {
   open: boolean;
@@ -65,8 +66,9 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         }`}
       >
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
-          <span className="font-display text-lg text-primary">
-            {company.name}
+          <span className="flex items-center gap-2.5 text-primary">
+            <Logo className="h-7 w-7 shrink-0" />
+            <span className="font-display text-lg">{company.shortName}</span>
           </span>
           <button
             type="button"

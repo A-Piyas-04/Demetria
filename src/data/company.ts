@@ -5,6 +5,8 @@
  */
 export const company = {
   name: "Demetria Nutrition",
+  /** Wordmark used beside the logo in the navbar and footer. */
+  shortName: "Demetria",
   tagline: "Nutrition programs built for measurable farm performance",
   legalName: "[Client legal entity]",
   founded: "[Year]",

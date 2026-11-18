@@ -2,6 +2,7 @@ import Link from "next/link";
 import { company } from "@/data/company";
 import { footerNav } from "@/data/navigation";
 import { Container } from "@/components/ui/Container";
+import { Logo } from "@/components/ui/Logo";
 
 const columns = [
   { title: "Explore", links: footerNav.explore },
@@ -16,7 +17,10 @@ export function Footer() {
       <Container className="pt-20 pb-10 sm:pt-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
-            <p className="font-display text-2xl text-surface">{company.name}</p>
+            <div className="flex items-center gap-3 text-surface">
+              <Logo className="h-10 w-10 shrink-0" />
+              <p className="font-display text-2xl">{company.shortName}</p>
+            </div>
             <p className="t-eyebrow mt-2 text-sage/70">
               Animal Nutrition &amp; Health
             </p>

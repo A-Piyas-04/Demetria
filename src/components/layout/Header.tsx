@@ -7,6 +7,7 @@ import { company } from "@/data/company";
 import { mainNav, type NavItem } from "@/data/navigation";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { Logo } from "@/components/ui/Logo";
 import { MobileNav } from "./MobileNav";
 
 /** Routes whose hero sits under a transparent navbar. */
@@ -83,22 +84,23 @@ export function Header() {
         <Container className="flex h-[4.5rem] items-center justify-between gap-6 lg:h-[5rem]">
           <Link
             href="/"
-            className="flex min-w-0 shrink-0 flex-col leading-none"
-            aria-label={company.name + " home"}
+            className={`flex min-w-0 shrink-0 items-center gap-3 transition-colors duration-300 ${
+              overHero ? "text-surface" : "text-primary"
+            }`}
+            aria-label={company.name + " — home"}
           >
-            <span
-              className={`font-display text-[1.3rem] tracking-[-0.02em] transition-colors duration-300 ${
-                overHero ? "text-surface" : "text-primary"
-              }`}
-            >
-              {company.name}
-            </span>
-            <span
-              className={`t-eyebrow mt-1.5 truncate text-[0.6rem] font-medium transition-colors duration-300 ${
-                overHero ? "text-surface/65" : "text-muted"
-              }`}
-            >
-              Animal Nutrition &amp; Health
+            <Logo className="h-9 w-9 shrink-0" />
+            <span className="flex min-w-0 flex-col leading-none">
+              <span className="font-display text-[1.35rem] tracking-[-0.02em]">
+                {company.shortName}
+              </span>
+              <span
+                className={`t-eyebrow mt-1.5 truncate text-[0.6rem] font-medium transition-colors duration-300 ${
+                  overHero ? "text-surface/65" : "text-muted"
+                }`}
+              >
+                Animal Nutrition &amp; Health
+              </span>
             </span>
           </Link>
 
