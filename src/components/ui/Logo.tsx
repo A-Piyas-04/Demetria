@@ -1,5 +1,5 @@
 /**
- * Demetria brand mark.
+ * BENINVEST SRL brand mark.
  *
  * A single grain seed held inside a ring — Demeter is the goddess of grain and
  * harvest, and the ring reads as both a seal and a lens. The seed is split

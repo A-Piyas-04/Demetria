@@ -34,21 +34,24 @@ export function Reveal({
   variant = "fade-up",
   staggerChildren = false,
 }: RevealProps) {
-  const reduced = useReducedMotion();
-
-  if (reduced) {
-    return <div className={className}>{children}</div>;
-  }
+  // Devices with "Reduce motion" turned on (macOS / iOS / Android accessibility
+  // settings) still get the reveal, as a pure opacity fade with no travel.
+  // Previously they got nothing, which made the whole site look static.
+  const reduced = useReducedMotion() === true;
 
   const isClip = variant === "clip";
 
-  const initial = isClip
-    ? { opacity: 0, clipPath: "inset(0 0 14% 0)" }
-    : { opacity: 0, y };
+  const initial = reduced
+    ? { opacity: 0 }
+    : isClip
+      ? { opacity: 0, clipPath: "inset(0 0 14% 0)" }
+      : { opacity: 0, y };
 
-  const animate = isClip
-    ? { opacity: 1, clipPath: "inset(0 0 0% 0)" }
-    : { opacity: 1, y: 0 };
+  const animate = reduced
+    ? { opacity: 1 }
+    : isClip
+      ? { opacity: 1, clipPath: "inset(0 0 0% 0)" }
+      : { opacity: 1, y: 0 };
 
   if (staggerChildren) {
     return (
@@ -87,11 +90,13 @@ export function RevealItem({
   children: ReactNode;
   className?: string;
 }) {
+  const reduced = useReducedMotion() === true;
+
   return (
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: 20 },
+        hidden: reduced ? { opacity: 0 } : { opacity: 0, y: 20 },
         show: {
           opacity: 1,
           y: 0,
@@ -109,7 +114,15 @@ export function RevealRule({ className = "" }: { className?: string }) {
   const reduced = useReducedMotion();
 
   if (reduced) {
-    return <div className={`h-px w-full bg-current opacity-20 ${className}`} />;
+    return (
+      <motion.div
+        className={`h-px w-full bg-current ${className}`}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.2 }}
+        viewport={{ once: true, margin: "-10% 0px" }}
+        transition={{ duration: 0.8, ease: EASE_BRAND }}
+      />
+    );
   }
 
   return (

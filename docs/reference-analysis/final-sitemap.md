@@ -1,4 +1,4 @@
-# Final Sitemap — Demetria Nutrition (Placeholder Brand)
+# Final Sitemap — BENINVEST SRL (Placeholder Brand)
 
 ```
 /
@@ -26,7 +26,7 @@
 | `/research` | R&D approach, quality, certification *placeholders* | Journey 3 |
 | `/insights` | Sample articles (labeled) | Optional depth |
 | `/insights/[slug]` | Article detail | Optional depth |
-| `/contact` | Address, email, phone, WhatsApp, inquiry CTA | All journeys |
+| `/contact` | Address, email, phone, inquiry CTA | All journeys |
 
 ## Primary user journeys
 

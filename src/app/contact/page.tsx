@@ -9,13 +9,18 @@ import { Reveal, RevealItem } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Reach the ${company.name} technical team by email, phone, or WhatsApp.`,
+  description: `Reach the ${company.name} technical team by email or phone.`,
 };
 
 export default function ContactPage() {
-  const whatsappUrl = `https://wa.me/${company.contact.whatsapp.replace(/\D/g, "")}`;
-
-  const channels = [
+  const channels: {
+    icon: "mail" | "phone";
+    label: string;
+    value: string;
+    href: string;
+    note: string;
+    external?: boolean;
+  }[] = [
     {
       icon: "mail" as const,
       label: "Email",
@@ -29,14 +34,6 @@ export default function ContactPage() {
       value: company.contact.phone,
       href: `tel:${company.contact.phoneTel}`,
       note: "Direct line to the nutrition team",
-    },
-    {
-      icon: "chat" as const,
-      label: "WhatsApp",
-      value: "Message our team",
-      href: whatsappUrl,
-      note: "Quick questions from the mill or the barn",
-      external: true,
     },
   ];
 

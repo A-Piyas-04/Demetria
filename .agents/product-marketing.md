@@ -1,4 +1,4 @@
-# Demetria Nutrition — Product Marketing Context
+# BENINVEST SRL — Product Marketing Context
 
 **Document version:** 1.0.0  
 **Last updated:** 2026-11-18  
@@ -12,7 +12,7 @@
 
 ## Product
 
-**Working name:** Demetria Nutrition  
+**Working name:** BENINVEST SRL  
 **Category:** B2B animal nutrition — feed additives, premixes, nutraceuticals, mycotoxin risk tools  
 **What we sell:** Specifiable formulations + technical partnership for mills, integrators, and producers  
 **What we do not claim yet:** Verified certifications, peer-reviewed outcomes, named customer logos
@@ -38,7 +38,7 @@
 ## Positioning
 
 **For** feed mills and animal protein producers who need measurable nutrition programs,  
-**Demetria Nutrition** is a technical feed-additive partner  
+**BENINVEST SRL** is a technical feed-additive partner  
 **that** connects species-specific formulations to outcome pathways (gut health, feed quality, efficiency, farm KPIs)  
 **unlike** broad chemical catalogs or opaque “black box” blends,  
 **we** lead with clear pathway framing, replaceable technical specs, and consultation-first inquiry.

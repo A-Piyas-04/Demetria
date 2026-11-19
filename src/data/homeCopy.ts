@@ -28,7 +28,7 @@ export const homeCopy = {
     statement:
       "We believe better animal nutrition begins with a deeper understanding of nature, science, and the challenges facing modern agriculture.",
     body: [
-      "Demetria Nutrition designs additive, premix, and nutraceutical programs around the constraint that actually limits a production system — transition stress, mycotoxin pressure, nutrient capture, or the documentation an audit will ask for.",
+      "BENINVEST SRL designs additive, premix, and nutraceutical programs around the constraint that actually limits a production system — transition stress, mycotoxin pressure, nutrient capture, or the documentation an audit will ask for.",
       "Every recommendation is written for inclusion rates, formats, and process limits a formulator can specify and a mill team can run without improvising.",
     ],
     cta: { label: "Discover Our Story", href: "/about" },

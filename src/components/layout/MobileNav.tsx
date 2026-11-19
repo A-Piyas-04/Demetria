@@ -19,8 +19,13 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
   useEffect(() => {
     if (!open) return;
+    // Lock both <html> and <body>: iOS Safari keeps scrolling the page behind
+    // the drawer if only <body> is locked.
+    const html = document.documentElement;
     const previous = document.body.style.overflow;
+    const previousHtml = html.style.overflow;
     document.body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
@@ -28,6 +33,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
     panelRef.current?.focus();
     return () => {
       document.body.style.overflow = previous;
+      html.style.overflow = previousHtml;
       document.removeEventListener("keydown", onKey);
     };
   }, [open, onClose]);
@@ -41,7 +47,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
   return (
     <div
-      className={`fixed inset-0 z-[60] lg:hidden ${
+      className={`fixed inset-0 z-[60] xl:hidden ${
         open ? "pointer-events-auto" : "pointer-events-none"
       }`}
       aria-hidden={!open}
@@ -61,7 +67,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
         role="dialog"
         aria-modal={open}
         aria-label="Site navigation"
-        className={`absolute inset-y-0 right-0 flex w-[min(100%,22rem)] flex-col bg-bg shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        className={`absolute top-0 right-0 flex h-dvh w-[min(100%,22rem)] flex-col bg-bg pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -88,7 +94,10 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-3 py-4" aria-label="Mobile">
+        <nav
+          className="flex-1 overflow-y-auto overscroll-contain px-3 py-4 [-webkit-overflow-scrolling:touch]"
+          aria-label="Mobile"
+        >
           <ul className="flex flex-col">
             {mainNav.map((item) => {
               const base = item.href.split("?")[0];
@@ -166,7 +175,7 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
           </ul>
         </nav>
 
-        <div className="border-t border-line p-4">
+        <div className="safe-bottom border-t border-line px-4 pt-4">
           <Link
             href="/contact"
             onClick={onClose}

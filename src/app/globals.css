@@ -80,6 +80,42 @@ body {
   overflow-x: clip;
 }
 
+/* Notched phones in landscape: keep content clear of the sensor housing while
+   section backgrounds still run edge to edge. Used by <Container>. */
+.safe-x {
+  padding-left: max(var(--gutter), env(safe-area-inset-left));
+  padding-right: max(var(--gutter), env(safe-area-inset-right));
+}
+
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+/* Older Safari (< 16) ignores overflow: clip — fall back to hidden. */
+@supports not (overflow: clip) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Touch devices: no grey flash on tap, no 300ms double-tap-zoom delay. */
+a,
+button,
+input,
+select,
+textarea,
+label,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+img,
+video,
+svg {
+  max-width: 100%;
+}
+
 ::selection {
   background: var(--color-primary);
   color: #fff;
@@ -103,7 +139,7 @@ body {
 /* Hero display — scales with BOTH viewport width and height so the headline,
    support copy, and buttons always share one screen without scrolling. */
 .t-hero-display {
-  font-size: clamp(2.3rem, min(0.85rem + 4.5vw, 8.4vh), 4.75rem); /* 37 → 76px */
+  font-size: clamp(2.3rem, min(0.85rem + 4.5vw, 8.4svh), 4.75rem); /* 37 → 76px */
   line-height: 1.04;
   letter-spacing: -0.028em;
 }
@@ -172,6 +208,10 @@ body {
 
 /* ============================================================
    REDUCED MOTION
+   Devices with "Reduce motion" on (macOS, iOS, Android) keep the site's
+   fades and short hover transitions — only looping animation and smooth
+   scrolling are switched off. Killing every transition here is what made
+   the site look frozen/static on some Macs.
    ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -182,9 +222,7 @@ body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
@@ -203,10 +241,14 @@ body {
     transform var(--dur-micro) var(--ease-brand);
 }
 
-.card-interactive:hover {
-  border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
-  box-shadow: 0 22px 46px -32px rgba(16, 42, 35, 0.6);
-  transform: translateY(-3px);
+/* Hover effects only for real hover devices — on phones/iPads a tap would
+   otherwise leave the card "stuck" in its hover state. */
+@media (hover: hover) and (pointer: fine) {
+  .card-interactive:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+    box-shadow: 0 22px 46px -32px rgba(16, 42, 35, 0.6);
+    transform: translateY(-3px);
+  }
 }
 
 /* Same language inverted for forest sections. */
@@ -220,10 +262,12 @@ body {
     transform var(--dur-micro) var(--ease-brand);
 }
 
-.card-dark.card-interactive:hover {
-  border-color: color-mix(in srgb, var(--color-sage) 55%, transparent);
-  background: color-mix(in srgb, #ffffff 9%, transparent);
-  box-shadow: none;
+@media (hover: hover) and (pointer: fine) {
+  .card-dark.card-interactive:hover {
+    border-color: color-mix(in srgb, var(--color-sage) 55%, transparent);
+    background: color-mix(in srgb, #ffffff 9%, transparent);
+    box-shadow: none;
+  }
 }
 
 /* Display numeral used for ordered sequences (outcomes, stages, values). */
@@ -256,8 +300,17 @@ body {
   color: color-mix(in srgb, var(--color-muted) 70%, transparent);
 }
 
-.field:hover {
-  border-color: color-mix(in srgb, var(--color-primary) 24%, transparent);
+/* iOS Safari zooms the page when a focused input is under 16px. */
+@media (max-width: 767px) {
+  .field {
+    font-size: 16px;
+  }
+}
+
+@media (hover: hover) {
+  .field:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 24%, transparent);
+  }
 }
 
 .field:focus {

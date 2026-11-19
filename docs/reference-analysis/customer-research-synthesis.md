@@ -1,4 +1,4 @@
-# Customer Research Synthesis — Demetria (Placeholder Brand)
+# Customer Research Synthesis — BENINVEST SRL (Placeholder Brand)
 
 **Mode:** Lightweight synthesis from public industry language and reference-site IA (not interviews).  
 **Date:** 2026-11-18  

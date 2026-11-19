@@ -84,14 +84,14 @@ export function Header() {
         <Container className="flex h-[4.5rem] items-center justify-between gap-6 lg:h-[5rem]">
           <Link
             href="/"
-            className={`flex min-w-0 shrink-0 items-center gap-3 transition-colors duration-300 ${
+            className={`flex min-w-0 shrink items-center gap-3 transition-colors duration-300 ${
               overHero ? "text-surface" : "text-primary"
             }`}
             aria-label={company.name + " — home"}
           >
             <Logo className="h-9 w-9 shrink-0" />
             <span className="flex min-w-0 flex-col leading-none">
-              <span className="font-display text-[1.35rem] tracking-[-0.02em]">
+              <span className="font-display whitespace-nowrap text-[1.05rem] tracking-[-0.02em] min-[380px]:text-[1.2rem] sm:text-[1.35rem]">
                 {company.shortName}
               </span>
               <span
@@ -104,7 +104,7 @@ export function Header() {
             </span>
           </Link>
 
-          <div ref={navRef} className="hidden lg:block">
+          <div ref={navRef} className="hidden xl:block">
             <nav aria-label="Main">
               <ul className="flex items-center gap-0.5">
                 {mainNav.map((item) => (
@@ -131,17 +131,21 @@ export function Header() {
           </div>
 
           <div className="flex shrink-0 items-center gap-2">
-            <ButtonLink
-              href="/contact"
-              size="sm"
-              variant={overHero ? "onDark" : "primary"}
-              className="hidden sm:inline-flex"
-            >
-              Get in Touch
-            </ButtonLink>
+            {/* Wrapper owns the breakpoint: ButtonLink's own `inline-flex`
+                would otherwise override `hidden` and show it on phones,
+                pushing the menu button off-screen. */}
+            <span className="hidden sm:inline-flex">
+              <ButtonLink
+                href="/contact"
+                size="sm"
+                variant={overHero ? "onDark" : "primary"}
+              >
+                Get in Touch
+              </ButtonLink>
+            </span>
             <button
               type="button"
-              className={`inline-flex rounded-full border p-2.5 transition-colors lg:hidden ${
+              className={`inline-flex rounded-full border p-2.5 transition-colors xl:hidden ${
                 overHero
                   ? "border-surface/30 text-surface"
                   : "border-primary/15 text-primary"

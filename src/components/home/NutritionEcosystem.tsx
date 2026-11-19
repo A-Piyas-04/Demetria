@@ -6,7 +6,6 @@ import {
   motion,
   useMotionValue,
   useMotionValueEvent,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
@@ -132,27 +131,17 @@ const pointAt = (deg: number) => ({
  * No WebGL, no models, no free-running animation — the scene is static unless
  * the scroll position moves.
  *
- * Mobile and reduced-motion: no pinning, no perspective. A flat ring plus the
- * same five entries as readable text, so nothing is locked inside the
- * interaction.
+ * Every device gets this same pinned, scroll-driven scene — phones and tablets
+ * included. Scrolling down turns the disc forward, scrolling up turns it back.
+ * Below `lg` the layout stacks (intro above, stage over the active entry)
+ * so the identical animation fits a portrait screen.
  */
 export function NutritionEcosystem() {
-  const reduced = useReducedMotion();
-  const [interactive, setInteractive] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 1024px)");
-    const sync = () => setInteractive(mq.matches && reduced !== true);
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, [reduced]);
-
-  return interactive ? <PinnedEcosystem /> : <StackedEcosystem />;
+  return <PinnedEcosystem />;
 }
 
 /* ------------------------------------------------------------------ */
-/* Desktop — pinned, scroll-driven, 3D                                  */
+/* Pinned, scroll-driven, 3D — all screen sizes                         */
 /* ------------------------------------------------------------------ */
 
 /** Scroll distance allotted to each step, and the easing of a single step. */
@@ -318,12 +307,29 @@ function PinnedEcosystem() {
       className="relative bg-primary text-primary-soft"
       aria-labelledby="ecosystem-heading"
     >
+      {/* Phones / tablets: the intro reads first, in normal flow, so the
+          pinned screen below only has to hold the wheel and the active entry. */}
+      <Container className="pt-20 pb-4 sm:pt-24 lg:hidden">
+        <div aria-hidden>
+        <p className="t-eyebrow text-sage">{copy.index}</p>
+        <p className="font-display t-h2 mt-5 max-w-xl text-surface">
+          {copy.title}
+        </p>
+        <p className="t-body mt-5 max-w-xl text-primary-soft/70">
+          {copy.description}
+        </p>
+        </div>
+      </Container>
+
       <div
         ref={ref}
-        style={{ height: `${100 + (COUNT - 1) * SEGMENT_VH}vh` }}
+        // svh = the viewport with browser toolbars showing, so iPad / mobile
+        // Safari never hides the bottom of the pinned stage behind its UI.
+        style={{ height: `${100 + (COUNT - 1) * SEGMENT_VH}svh` }}
         className="relative"
       >
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        {/* Top padding below lg clears the sticky site header. */}
+        <div className="sticky top-0 flex h-svh items-center overflow-hidden pt-[4.5rem] lg:pt-0">
           {/* Atmosphere behind the whole stage */}
           <div
             aria-hidden
@@ -331,21 +337,25 @@ function PinnedEcosystem() {
           />
 
           <Container width="wide" className="relative w-full">
-            <div className="grid grid-cols-12 items-center gap-6 xl:gap-10">
-              {/* Fixed editorial column */}
-              <div className="col-span-4">
-                <p className="t-eyebrow text-sage">{copy.index}</p>
-                <h2
-                  id="ecosystem-heading"
-                  className="font-display mt-5 text-[clamp(1.75rem,0.9rem+1.9vw,2.9rem)] leading-[1.1] tracking-[-0.02em] text-surface"
-                >
-                  {copy.title}
-                </h2>
-                <p className="mt-5 max-w-md text-[0.95rem] leading-relaxed text-primary-soft/65">
-                  {copy.description}
-                </p>
+            <div className="grid grid-cols-1 items-center gap-4 sm:gap-6 lg:grid-cols-12 xl:gap-10">
+              {/* Fixed editorial column (below the wheel on phones/tablets) */}
+              <div className="order-2 mx-auto w-full max-w-xl lg:order-1 lg:col-span-4 lg:mx-0 lg:max-w-none">
+                {/* Laptop intro. On smaller screens it is visually replaced by
+                    the in-flow intro above, but stays the section's heading. */}
+                <div className="sr-only lg:not-sr-only">
+                  <p className="t-eyebrow text-sage">{copy.index}</p>
+                  <h2
+                    id="ecosystem-heading"
+                    className="font-display mt-5 text-[clamp(1.75rem,0.9rem+1.9vw,2.9rem)] leading-[1.1] tracking-[-0.02em] text-surface"
+                  >
+                    {copy.title}
+                  </h2>
+                  <p className="mt-5 max-w-md text-[0.95rem] leading-relaxed text-primary-soft/65">
+                    {copy.description}
+                  </p>
+                </div>
 
-                <div className="relative mt-9 min-h-[8.5rem] pl-6">
+                <div className="relative min-h-[7.5rem] pl-5 sm:pl-6 lg:mt-9 lg:min-h-[8.5rem] [@media(max-height:560px)]:min-h-[3rem]">
                   <span
                     aria-hidden
                     className="absolute top-0 bottom-0 left-0 w-px bg-gradient-to-b from-sage/70 via-sage/25 to-transparent"
@@ -356,24 +366,24 @@ function PinnedEcosystem() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <p className="font-display text-[1.5rem] leading-tight text-surface">
+                    <p className="font-display text-[1.25rem] leading-tight text-surface sm:text-[1.5rem]">
                       {node.title}
                     </p>
-                    <p className="mt-3 max-w-sm text-[0.9rem] leading-relaxed text-primary-soft/65">
+                    <p className="mt-2 max-w-sm text-[0.85rem] leading-relaxed text-primary-soft/65 sm:mt-3 sm:text-[0.9rem] [@media(max-height:560px)]:hidden">
                       {node.description}
                     </p>
                   </motion.div>
                 </div>
 
                 {/* Editorial counter + progress rule */}
-                <div className="mt-9 flex items-end gap-5" aria-hidden>
+                <div className="mt-4 flex items-end gap-5 sm:mt-6 lg:mt-9" aria-hidden>
                   <p className="font-display flex items-baseline leading-none text-surface">
                     <motion.span
                       key={active}
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                      className="text-[2.6rem] tracking-[-0.03em]"
+                      className="text-[1.9rem] tracking-[-0.03em] sm:text-[2.2rem] lg:text-[2.6rem]"
                     >
                       {active + 1}
                     </motion.span>
@@ -400,9 +410,9 @@ function PinnedEcosystem() {
               </div>
 
               {/* 3D stage */}
-              <div className="col-span-8">
+              <div className="order-1 lg:order-2 lg:col-span-8">
                 <motion.div
-                  className="relative mx-auto aspect-square w-full max-w-[min(48rem,92vh)]"
+                  className="relative mx-auto aspect-square w-full max-w-[min(100%,48svh)] sm:max-w-[min(100%,54svh)] lg:max-w-[min(48rem,92svh)]"
                   style={{
                     scale: entryScale,
                     opacity: entryOpacity,
@@ -575,11 +585,11 @@ function EcosystemNode({
 }) {
   return (
     <div
-      className={`flex w-[12rem] flex-col items-center text-center transition-[opacity,transform,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
+      className={`flex w-[6.5rem] flex-col items-center text-center sm:w-[9rem] lg:w-[12rem] transition-[opacity,transform,filter] duration-[600ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
         active ? "scale-100 opacity-100" : "scale-[0.8] opacity-40 blur-[0.4px]"
       }`}
     >
-      <span className="relative flex h-[4.25rem] w-[4.25rem] items-center justify-center">
+      <span className="relative flex h-11 w-11 items-center justify-center sm:h-14 sm:w-14 lg:h-[4.25rem] lg:w-[4.25rem]">
         {/* Halo on the active node */}
         <span
           aria-hidden
@@ -595,17 +605,17 @@ function EcosystemNode({
           }`}
         />
         <span
-          className={`relative flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full border transition-colors duration-[600ms] ${
+          className={`relative flex h-11 w-11 items-center justify-center rounded-full border sm:h-14 sm:w-14 lg:h-[4.25rem] lg:w-[4.25rem] transition-colors duration-[600ms] ${
             active
               ? "border-sage/70 bg-gradient-to-b from-[#cddcc9] to-[#92ad8f] text-primary shadow-[0_14px_30px_-12px_rgba(0,0,0,0.7)]"
               : "border-sage/22 bg-primary-deep/70 text-sage/55"
           }`}
         >
-          <NodeIcon id={id} className="h-9 w-9" />
+          <NodeIcon id={id} className="h-6 w-6 sm:h-7 sm:w-7 lg:h-9 lg:w-9" />
         </span>
       </span>
       <span
-        className={`mt-4 text-[0.9rem] leading-snug font-semibold tracking-[-0.005em] transition-colors duration-[600ms] ${
+        className={`mt-2 text-[0.68rem] leading-snug font-semibold sm:mt-3 sm:text-[0.8rem] lg:mt-4 lg:text-[0.9rem] tracking-[-0.005em] transition-colors duration-[600ms] ${
           active ? "text-surface" : "text-primary-soft/50"
         }`}
       >
@@ -675,73 +685,5 @@ function AtomCore({
         <div className="absolute inset-[28%] rounded-full border border-sage/20" />
       </motion.div>
     </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/* Mobile / reduced motion — same content, no pinning, no perspective   */
-/* ------------------------------------------------------------------ */
-
-function StackedEcosystem() {
-  return (
-    <section
-      data-tone="dark"
-      className="section-pad bg-primary text-primary-soft"
-      aria-labelledby="ecosystem-heading-static"
-    >
-      <Container>
-        <p className="t-eyebrow text-sage">{copy.index}</p>
-        <h2
-          id="ecosystem-heading-static"
-          className="font-display t-h2 mt-5 max-w-xl text-surface"
-        >
-          {copy.title}
-        </h2>
-        <p className="t-body mt-5 max-w-xl text-primary-soft/70">
-          {copy.description}
-        </p>
-
-        <div className="relative mx-auto mt-14 aspect-square w-full max-w-[22rem]">
-          <div
-            aria-hidden
-            className="absolute rounded-full border border-sage/20"
-            style={{ inset: `${50 - RADIUS}%` }}
-          />
-          <div
-            aria-hidden
-            className="absolute inset-[22%] rounded-full bg-[radial-gradient(circle,rgba(168,190,164,0.14),transparent_70%)]"
-          />
-          {NODES.map((item, i) => {
-            const p = pointAt(BASE_ANGLE - i * STEP);
-            return (
-              <span
-                key={item.id}
-                className="absolute flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-sage/30 bg-primary-deep/70 text-sage/80"
-                style={{ left: `${p.x}%`, top: `${p.y}%` }}
-              >
-                <NodeIcon id={item.id} className="h-6 w-6" />
-              </span>
-            );
-          })}
-          <AtomCore active={0} />
-        </div>
-
-        <ol className="mt-14 divide-y divide-sage/15 border-t border-sage/15">
-          {NODES.map((item) => (
-            <li key={item.id} className="flex gap-5 py-6">
-              <span className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-sage/25 text-sage/80">
-                <NodeIcon id={item.id} className="h-5 w-5" />
-              </span>
-              <div>
-                <h3 className="font-display t-h4 text-surface">{item.title}</h3>
-                <p className="t-body mt-2 text-primary-soft/70">
-                  {item.description}
-                </p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </Container>
-    </section>
   );
 }

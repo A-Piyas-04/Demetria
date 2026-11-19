@@ -4,15 +4,15 @@
  * are deliberately visible so nothing ships as an invented fact.
  */
 export const company = {
-  name: "Demetria Nutrition",
+  name: "BENINVEST SRL",
   /** Wordmark used beside the logo in the navbar and footer. */
-  shortName: "Demetria",
+  shortName: "BENINVEST SRL",
   tagline: "Nutrition programs built for measurable farm performance",
   legalName: "[Client legal entity]",
   founded: "[Year]",
   headquarters: "[City, Country]",
   description:
-    "Demetria Nutrition partners with feed mills, integrators, and producers on additives, premixes, and nutraceutical programs built around gut health, feed quality, and species-specific performance goals.",
+    "BENINVEST SRL partners with feed mills, integrators, and producers on additives, premixes, and nutraceutical programs built around gut health, feed quality, and species-specific performance goals.",
   mission:
     "Help technical teams specify, implement, and measure nutrition interventions that hold up from the mill floor to the barn.",
   vision:
@@ -89,10 +89,9 @@ export const company = {
     },
   ],
   contact: {
-    email: "inquiries@demetria-nutrition.placeholder",
+    email: "inquiries@beninvest-srl.placeholder",
     phone: "+1 (555) 010-2400",
     phoneTel: "+15550102400",
-    whatsapp: "+15550102400",
     address: "[Street address]\n[City, Region, Postal code]",
   },
   social: {

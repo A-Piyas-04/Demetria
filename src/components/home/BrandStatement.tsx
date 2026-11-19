@@ -11,7 +11,7 @@ const copy = homeCopy.statement;
  */
 export function BrandStatement() {
   return (
-    <section data-tone="dark" className="relative isolate flex min-h-[62vh] items-center overflow-hidden bg-primary-deep py-24 sm:py-32">
+    <section data-tone="dark" className="relative isolate flex min-h-[62svh] items-center overflow-hidden bg-primary-deep py-24 sm:py-32">
       <Image
         src={copy.image}
         alt={copy.imageAlt}

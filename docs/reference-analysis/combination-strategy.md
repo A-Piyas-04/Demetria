@@ -2,7 +2,7 @@
 
 ## Brand placeholder
 
-**Working name:** Demetria Nutrition  
+**Working name:** BENINVEST SRL  
 *(Clearly marked as placeholder — replace via `src/data/company.ts`)*
 
 **Positioning:** Premium B2B animal nutrition, feed additives, and animal health solutions.

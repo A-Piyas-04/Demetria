@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fraunces, Manrope } from "next/font/google";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { company } from "@/data/company";
@@ -22,6 +22,15 @@ export const metadata: Metadata = {
     template: `%s | ${company.name}`,
   },
   description: company.tagline,
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+/** Phones & tablets: real device width, notch-aware, tinted browser chrome. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#102a23",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
